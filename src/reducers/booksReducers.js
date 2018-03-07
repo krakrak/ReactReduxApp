@@ -1,8 +1,23 @@
 "use strict"
 
 // BOOKS REDUCERS
-export function booksReducers (state={books:[]}, action){
+export function booksReducers (state=
+    {books:[   {
+        _id : 1,
+        title :'book 1',
+        description : 'This is book 1',
+        price : "2"
+    },
+    {
+        _id : 2,
+        title :'book 2',
+        description : 'This is book 2',
+        price : "4"
+    }
+]}, action) {
     switch (action.type){
+        case "GET_BOOKS":
+        return {...state, books:[...state.books]}
         case "POST_BOOK":
         // let books = state.books.concat(action.payload);
         // return {books};
@@ -15,7 +30,7 @@ export function booksReducers (state={books:[]}, action){
         // Determine at which index in the book array is the book to be deleted
         const indexToDelete = currentBookToDelete.findIndex(
             function(book) {
-                return book.id === action.payload.id;
+                return book._id.toString() === action.payload;
             }
         )
         //use slice to remove the book at the specified index
@@ -29,7 +44,7 @@ export function booksReducers (state={books:[]}, action){
         // Determine at which index in the book array is the book to be updated
         const indexToUpdate = currentBookToUpdate.findIndex(
             function(book) {
-                return book.id === action.payload.id;
+                return book._id === action.payload._id;
             }
         )
         // Create a new book object with new values and with same array index of the item we

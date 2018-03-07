@@ -1,4 +1,14 @@
 "use strict"
+
+// REACT
+import React from 'react';
+import {render} from 'react-dom';
+import {Provider} from 'react-redux';
+
+// React Router
+import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import {PropTypes} from 'react-prop-types';
+
 import {applyMiddleware, createStore} from 'redux';
 import logger from 'redux-logger';
 
@@ -12,59 +22,28 @@ import {postBooks, deleteBooks, updateBooks} from './actions/booksActions';
 const middleware = applyMiddleware(logger)
 const store = createStore(reducers, middleware);
 
-// store.subscribe(function(){
-//     console.log('current state is: ',  store.getState());
-//     //console.log('current price is: ',  store.getState()[1].price);
-// })
+import BooksList from './components/pages/booksList'
+import Cart from './components/pages/cart';
+import BooksForm from './components/pages/booksForm';
+import Main from './main';
 
+const Routes = (
+    <Provider store = {store}>
+        <Router history={browserHistory}>
+            <Route path="/" component={Main}>
+                <IndexRoute component={BooksList}/>
+                <Route path="/admin" component={BooksForm}/>
+                <Route path="/cart" component={Cart}/>
+            </Route>
+        </Router>
+    </Provider>
+)
+
+render (
+   Routes, document.getElementById('app')
+)
 // Step 2 create and dispatch actions
 // Post books
-store.dispatch(postBooks(
-    [   {
-            id : 1,
-            title :'book 1',
-            description : 'This is book 1',
-            price : "2EUR"
-        },
-        {
-            id : 2,
-            title :'book 2',
-            description : 'This is book 2',
-            price : "4EUR"
-        },
-        {
-            id : 3,
-            title :'book 3',
-            description : 'This is book 3',
-            price : "10EUR"
-        },
-        {
-            id : 4,
-            title :'book 4',
-            description : 'This is book 4',
-            price : "100EUR"
-        }
-    ]
-))
-
-//Delete a book
-store.dispatch(deleteBooks(
-    {id : 1}
-))
-
-//Update a book
-store.dispatch(updateBooks(
-    {
-        id : 4,
-        title:'Le Japonais d\'Afrique'
-    }
-))
-
- //-->> CART ACTIONS
-
- //Add to cart
- store.dispatch(addToCart([{id: 1}]))
-// store.dispatch({
-//     type:"ADD_TO_CART",
-//     payload :[{id : 2}]
-// })
+// store.dispatch(postBooks(
+    
+// ))
