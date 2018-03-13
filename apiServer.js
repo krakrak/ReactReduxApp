@@ -84,7 +84,7 @@ app.delete('/books/:_id', function(req, res){
   var query = {_id:req.params._id};
   Books.remove(query, function(err, books){
     if(err){
-      throw err;
+      console.log('# API DELETE BOOK');
     }
     res.json(books);
   })
@@ -116,6 +116,32 @@ app.put('/books/:_id', function(req, res){
 })
 // END
 
+
+// GET BOOKS IMAGES API
+app.get('/images', function(req, res){
+  const imgFolder = __dirname + '/public/images';
+  //Require file system
+  const fs = require('fs');
+  //Read all files in the directory
+  fs.readdir(imgFolder, function(err, files){
+    if (err)
+    {
+      return console.error(err);
+    }
+
+    //Create an empty array
+    const filesArr = [];
+    // Iterate all images folder and add image name to array
+    files.forEach(function(file){
+      filesArr.push({name: file});
+    })
+
+    //Send the json response with the array
+    res.json(filesArr);
+  })
+})
+
+// END
 app.listen(3001, function(err){
   if(err){
     return console.log(err);

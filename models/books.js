@@ -7,6 +7,7 @@ var booksSchema = mongoose.Schema({
     description: String,
     images:String,
     price: Number
+
 });
 
 var Books = mongoose.model('Books', booksSchema);
